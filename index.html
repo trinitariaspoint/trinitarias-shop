@@ -7,7 +7,7 @@
 <meta name="description" content="Perfumes inspirados en las mejores casas del mundo, accesorios y bisutería. Compra al detal y pide por WhatsApp.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg: #f7f0e6;
@@ -45,9 +45,9 @@
   ::selection{background:var(--burgundy);color:#fff;}
 
   h1,h2,h3,.display{
-    font-family:'Fraunces', serif;
-    font-weight:500;
-    letter-spacing:-0.01em;
+    font-family:'Manrope', sans-serif;
+    font-weight:800;
+    letter-spacing:-0.02em;
     margin:0;
   }
   .eyebrow{
@@ -59,39 +59,55 @@
     font-weight:700;
   }
 
-  /* ---------- HEADER ---------- */
+  /* ---------- HEADER (compact: brand + search + category tabs) ---------- */
   header{
     position:sticky; top:0; z-index:50;
-    background:rgba(247,240,230,0.92);
+    background:rgba(247,240,230,0.96);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border-soft);
   }
-  .headerbar{
+  .topbar{
     display:flex; align-items:center; justify-content:space-between;
-    height:76px;
+    height:56px;
   }
   .brand{display:flex; flex-direction:column; line-height:1; gap:4px;}
   .brand .mark{
-    font-family:'Fraunces',serif;
-    font-style:italic;
-    font-weight:500;
-    font-size:22px;
-    letter-spacing:0.01em;
+    font-family:'Manrope',sans-serif;
+    font-weight:800;
+    font-size:19px;
+    letter-spacing:-0.01em;
   }
   .brand .mark span{color:var(--burgundy);}
   .brand .sub{
     font-size:9.5px; letter-spacing:0.24em; text-transform:uppercase;
     color:var(--ink-faint);
   }
-  nav.desktop-nav{display:flex; gap:32px; font-size:13px; letter-spacing:0.03em;}
-  nav.desktop-nav a{
-    color:var(--ink-muted); text-decoration:none; padding:6px 0;
-    border-bottom:1px solid transparent; transition:all .2s;
+  .searchbar-wrap{padding:2px 0 12px;}
+  .search-box.big{position:relative;}
+  .search-box.big input{
+    width:100%; background:var(--surface); border:1.5px solid var(--ink);
+    color:var(--ink); padding:14px 18px 14px 44px; font-size:15px; border-radius:999px;
+    font-family:'Manrope',sans-serif; font-weight:500;
   }
-  nav.desktop-nav a:hover{color:var(--burgundy); border-color:var(--gold);}
-  .header-cta{
-    display:flex; align-items:center; gap:18px;
+  .search-box.big input::placeholder{color:var(--ink-faint); font-weight:400;}
+  .search-box.big input:focus{outline:none; border-color:var(--burgundy);}
+  .search-box.big svg{position:absolute; left:16px; top:50%; transform:translateY(-50%); opacity:.7;}
+  .category-tabs{
+    display:flex; gap:26px; overflow-x:auto; padding:2px 0 14px;
+    -ms-overflow-style:none; scrollbar-width:none;
   }
+  .category-tabs::-webkit-scrollbar{display:none;}
+  .cat-tab{
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    background:none; border:none; cursor:pointer; flex-shrink:0;
+    font-family:'Manrope',sans-serif; font-weight:700; font-size:12.5px;
+    color:var(--ink-muted); white-space:nowrap;
+    padding-bottom:9px; border-bottom:2px solid transparent;
+    transition:color .15s, border-color .15s;
+  }
+  .cat-tab .emoji{font-size:19px; line-height:1;}
+  .cat-tab:hover{color:var(--ink);}
+  .cat-tab.active{color:var(--burgundy); border-bottom-color:var(--burgundy);}
   .btn{
     display:inline-flex; align-items:center; gap:8px;
     font-family:'Manrope',sans-serif; font-weight:700; font-size:12.5px;
@@ -117,90 +133,12 @@
     border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center;
   }
 
-  /* ---------- HERO ---------- */
-  .hero{
-    position:relative; overflow:hidden;
-    padding:88px 0 72px;
-    border-bottom:1px solid var(--border-soft);
-    background:
-      radial-gradient(ellipse 900px 480px at 82% -10%, rgba(107,31,53,0.08), transparent 60%),
-      var(--bg);
-  }
-  .hero-grid{
-    display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;
-  }
-  .hero h1{
-    font-size:clamp(38px,4.6vw,60px);
-    line-height:1.04;
-    font-weight:500;
-  }
-  .hero h1 em{
-    font-style:italic; color:var(--burgundy); font-weight:500;
-  }
-  .hero p.lead{
-    margin:22px 0 0; max-width:480px;
-    color:var(--ink-muted); font-size:16.5px; line-height:1.65;
-  }
-  .hero-stats{
-    display:flex; gap:36px; margin-top:36px; flex-wrap:wrap;
-  }
-  .hero-stat .n{font-family:'Fraunces',serif; font-size:30px; color:var(--burgundy); font-weight:500;}
-  .hero-stat .l{font-size:11.5px; color:var(--ink-faint); letter-spacing:0.06em; text-transform:uppercase; margin-top:2px;}
-  .hero-actions{display:flex; gap:14px; margin-top:38px; flex-wrap:wrap;}
+  /* ---------- CATALOG CONTROLS (gender + sort, sits just above the grid) ---------- */
+  .catalog{padding:26px 0 40px;}
+  .result-count{color:var(--ink-faint); font-size:13px;}
 
-  .hero-visual{
-    position:relative; height:480px;
-  }
-  .float-card{
-    position:absolute; background:var(--surface); border:1px solid var(--border);
-    padding:10px; box-shadow:0 30px 60px -20px rgba(107,31,53,0.25);
-  }
-  .float-card img{width:100%; height:180px; object-fit:contain; background:var(--surface-2);}
-  .float-card .cap{padding:10px 4px 2px; font-size:11px; color:var(--ink-faint); letter-spacing:0.04em;}
-  .fc1{ width:230px; top:0; left:8%; transform:rotate(-4deg); z-index:3;}
-  .fc2{ width:210px; top:120px; left:44%; transform:rotate(3deg); z-index:4;}
-  .fc3{ width:190px; top:290px; left:6%; transform:rotate(2deg); z-index:2;}
-  .fc4{ width:180px; top:250px; left:64%; transform:rotate(-3deg); z-index:1;}
-  .hero-ring{
-    position:absolute; inset:0; border:1px dashed var(--border); border-radius:50%;
-    transform:scale(1.3); opacity:.4; pointer-events:none;
-  }
-
-  /* ---------- HOW IT WORKS ---------- */
-  .how{padding:64px 0; border-bottom:1px solid var(--border-soft); background:var(--bg-alt);}
-  .how-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:40px; margin-top:34px;}
-  .how-step{border-top:1px solid var(--gold); padding-top:18px;}
-  .how-step .idx{font-family:'Fraunces',serif; font-style:italic; color:var(--burgundy); font-size:15px;}
-  .how-step h3{font-size:19px; margin-top:10px; font-weight:500;}
-  .how-step p{color:var(--ink-muted); font-size:14.5px; line-height:1.6; margin-top:8px;}
-
-  /* ---------- CATALOG CONTROLS ---------- */
-  .catalog{padding:60px 0 40px;}
-  .catalog-head{
-    display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;
-    margin-bottom:28px;
-  }
-  .catalog-head h2{font-size:clamp(28px,3vw,36px); font-weight:500;}
-  .result-count{color:var(--ink-faint); font-size:13px; margin-top:6px;}
-
-  .controls{
-    position:sticky; top:76px; z-index:40;
-    background:rgba(247,240,230,0.96); backdrop-filter:blur(8px);
-    border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft);
-    padding:16px 0; margin-bottom:34px;
-  }
-  .controls-row{display:flex; gap:14px; align-items:center; flex-wrap:wrap;}
-  .controls-row.secondary{margin-top:12px;}
-  .search-box{
-    flex:1 1 240px; position:relative;
-  }
-  .search-box input{
-    width:100%; background:var(--surface); border:1px solid var(--border);
-    color:var(--ink); padding:11px 16px 11px 38px; font-size:14px; border-radius:var(--radius);
-    font-family:'Manrope',sans-serif;
-  }
-  .search-box input:focus{outline:none; border-color:var(--gold);}
-  .search-box svg{position:absolute; left:12px; top:50%; transform:translateY(-50%); opacity:.5;}
+  .controls{padding:8px 0 22px;}
+  .controls-row{display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap; margin-bottom:10px;}
   .chip-group{display:flex; gap:8px; flex-wrap:wrap;}
   .chip{
     border:1px solid var(--border); background:transparent; color:var(--ink-muted);
@@ -209,13 +147,6 @@
   }
   .chip:hover{border-color:var(--gold); color:var(--ink);}
   .chip.active{background:var(--burgundy); border-color:var(--burgundy); color:#fff; font-weight:700;}
-  .tab-group{display:flex; gap:6px; flex-wrap:wrap; background:var(--surface-2); padding:5px; border-radius:20px;}
-  .tab{
-    border:none; background:transparent; color:var(--ink-muted);
-    padding:9px 18px; font-size:12.5px; border-radius:16px; cursor:pointer;
-    font-family:'Manrope',sans-serif; font-weight:600; white-space:nowrap; transition:all .15s;
-  }
-  .tab.active{background:var(--surface); color:var(--burgundy); box-shadow:0 2px 8px rgba(107,31,53,0.12);}
   select#sortSelect{
     background:var(--surface); border:1px solid var(--border); color:var(--ink-muted);
     padding:10px 14px; font-size:12.5px; border-radius:var(--radius); font-family:'Manrope',sans-serif;
@@ -250,14 +181,14 @@
     background:var(--burgundy); color:#fff; border:none;
   }
   .card-body{padding:16px 16px 18px; display:flex; flex-direction:column; gap:6px; flex:1;}
-  .card-body .pname{font-family:'Fraunces',serif; font-size:16.5px; font-weight:500; line-height:1.25; cursor:pointer;}
+  .card-body .pname{font-family:'Manrope',sans-serif; font-size:15.5px; font-weight:700; line-height:1.25; cursor:pointer;}
   .card-body .pname:hover{color:var(--burgundy);}
   .card-body .pline{font-size:11.5px; color:var(--ink-faint); line-height:1.4; min-height:28px;}
   .card-foot{
     display:flex; align-items:center; justify-content:space-between; margin-top:10px;
     padding-top:12px; border-top:1px solid var(--border-soft);
   }
-  .price{font-family:'Fraunces',serif; font-size:19px; color:var(--burgundy);}
+  .price{font-family:'Manrope',sans-serif; font-size:18px; font-weight:800; color:var(--burgundy);}
   .price small{font-size:11px; color:var(--ink-faint); font-family:'Manrope',sans-serif;}
   .stepper{
     display:flex; align-items:center; gap:0; border:1px solid var(--border); border-radius:var(--radius);
@@ -282,7 +213,7 @@
     display:flex; flex-direction:column; align-items:center; gap:14px;
   }
   .empty-state.coming-soon .eyebrow{margin-bottom:4px;}
-  .empty-state.coming-soon h3{font-size:24px; color:var(--ink); font-weight:500;}
+  .empty-state.coming-soon h3{font-size:22px; color:var(--ink); font-weight:800;}
   .empty-state.coming-soon p{max-width:420px; margin:0 auto; font-size:14.5px; line-height:1.6;}
 
   /* ---------- FLOATING ORDER BAR ---------- */
@@ -299,8 +230,8 @@
   }
   .orderbar-info{display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
   .orderbar-count{font-size:13px; color:var(--ink-muted);}
-  .orderbar-count b{color:var(--burgundy); font-family:'Fraunces',serif; font-size:16px;}
-  .orderbar-total{font-family:'Fraunces',serif; font-size:20px; color:var(--burgundy);}
+  .orderbar-count b{color:var(--burgundy); font-family:'Manrope',sans-serif; font-weight:800; font-size:16px;}
+  .orderbar-total{font-family:'Manrope',sans-serif; font-weight:800; font-size:20px; color:var(--burgundy);}
   .orderbar-actions{display:flex; gap:10px;}
 
   /* ---------- MODALS (cart + quick view) ---------- */
@@ -324,13 +255,13 @@
   .cart-item{display:flex; gap:12px; align-items:center; padding:12px 0; border-bottom:1px solid var(--border-soft);}
   .cart-item img{width:52px; height:64px; object-fit:contain; background:var(--surface-2); padding:4px;}
   .cart-item-info{flex:1;}
-  .cart-item-info .n{font-family:'Fraunces',serif; font-size:14.5px;}
+  .cart-item-info .n{font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px;}
   .cart-item-info .p{font-size:12px; color:var(--ink-faint); margin-top:2px;}
   .cart-item-remove{background:none; border:none; color:var(--ink-faint); cursor:pointer; font-size:16px;}
   .cart-item-remove:hover{color:var(--tag-mujer);}
   .cart-summary{margin-top:16px; padding-top:16px; border-top:1px solid var(--border);}
   .cart-summary-row{display:flex; justify-content:space-between; font-size:14px; margin-bottom:8px; color:var(--ink-muted);}
-  .cart-summary-row.total{font-size:18px; color:var(--ink); font-family:'Fraunces',serif;}
+  .cart-summary-row.total{font-size:18px; color:var(--ink); font-family:'Manrope',sans-serif; font-weight:800;}
   .modal-actions{display:flex; gap:10px; margin-top:20px;}
   .modal-actions .btn{flex:1; justify-content:center;}
 
@@ -341,10 +272,10 @@
   .qv-img img{max-height:100%; object-fit:contain;}
   .qv-tags{display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;}
   .qv-tags .tag{position:static;}
-  .qv-name{font-size:24px;}
+  .qv-name{font-size:21px;}
   .qv-line{color:var(--ink-muted); font-size:13.5px; margin-top:6px; line-height:1.5;}
   .qv-meta{display:flex; gap:18px; margin-top:14px; font-size:12.5px; color:var(--ink-faint);}
-  .qv-price{font-family:'Fraunces',serif; font-size:26px; color:var(--burgundy); margin-top:16px;}
+  .qv-price{font-family:'Manrope',sans-serif; font-weight:800; font-size:26px; color:var(--burgundy); margin-top:16px;}
   .qv-actions{display:flex; align-items:center; gap:14px; margin-top:18px; flex-wrap:wrap;}
   .qv-actions .stepper{transform:scale(1.1); transform-origin:left center;}
 
@@ -363,30 +294,14 @@
   }
 
   /* ---------- RESPONSIVE ---------- */
-  nav.desktop-nav, .hero-stats .hero-stat:nth-child(3){display:flex;}
   @media(max-width:900px){
-    nav.desktop-nav{display:none;}
-    .hero-grid{grid-template-columns:1fr;}
-    .hero-visual{
-      height:auto; order:-1; position:static;
-      display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:36px;
-    }
-    .hero-ring{display:none;}
-    .float-card{
-      position:static; transform:none !important; width:auto !important;
-    }
-    .float-card img{height:130px;}
     .footer-grid{grid-template-columns:1fr; gap:30px;}
-    .how-grid{grid-template-columns:1fr; gap:28px;}
   }
   @media(max-width:520px){
     .wrap{padding:0 18px;}
-    .hero{padding:36px 0 48px;}
     .grid{grid-template-columns:repeat(2,1fr); gap:14px;}
-    .card-body .pname{font-size:14.5px;}
+    .card-body .pname{font-size:14px;}
     .price{font-size:16px;}
-    .controls{top:0;}
-    header{position:static;}
     .orderbar-inner{flex-direction:column; align-items:stretch;}
   }
 
@@ -402,91 +317,40 @@
 <body>
 
 <header>
-  <div class="wrap headerbar">
+  <div class="wrap topbar">
     <div class="brand">
       <div class="mark">Trinitarias <span>Shop</span></div>
-      <div class="sub">Perfumes · Accesorios · Bisutería</div>
     </div>
-    <nav class="desktop-nav">
-      <a href="#catalogo">Catálogo</a>
-      <a href="#como-comprar">Cómo comprar</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-    <div class="header-cta">
-      <div class="cart-pill" onclick="openCart()">
-        <span>Mi pedido</span>
-        <span class="cart-count" id="headerCartCount">0</span>
-      </div>
+    <div class="cart-pill" onclick="openCart()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span class="cart-count" id="headerCartCount">0</span>
+    </div>
+  </div>
+  <div class="wrap searchbar-wrap">
+    <div class="search-box big">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar perfumes, accesorios, bisutería...">
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="category-tabs" id="categoryTabs">
+      <button class="cat-tab active" data-category="todos"><span class="emoji">🛍️</span>Todo</button>
+      <button class="cat-tab" data-category="perfumes"><span class="emoji">🌸</span>Perfumes</button>
+      <button class="cat-tab" data-category="accesorios"><span class="emoji">👜</span>Accesorios</button>
+      <button class="cat-tab" data-category="bisuteria"><span class="emoji">💍</span>Bisutería</button>
     </div>
   </div>
 </header>
 
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow">Perfumes · Accesorios · Bisutería</div>
-      <h1 style="margin-top:16px;">Fragancias y detalles que <em>se notan</em></h1>
-      <p class="lead">Perfumes inspirados en las casas más deseadas del mundo — Lattafa, Carolina Herrera, Paco Rabanne, Versace, YSL y más — a precio al detal. Elige tus favoritos y arma tu pedido directo por WhatsApp.</p>
-      <div class="hero-stats">
-        <div class="hero-stat"><div class="n" id="statCount">115</div><div class="l">Referencias</div></div>
-        <div class="hero-stat"><div class="n" id="statFrom">$7</div><div class="l">Precio desde</div></div>
-        <div class="hero-stat"><div class="n">100ml</div><div class="l">Formato único</div></div>
-      </div>
-      <div class="hero-actions">
-        <a href="#catalogo" class="btn btn-gold">Ver catálogo completo</a>
-        <a href="#como-comprar" class="btn btn-ghost">Cómo comprar</a>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="hero-ring"></div>
-      <div class="float-card fc1" id="heroFc1"></div>
-      <div class="float-card fc2" id="heroFc2"></div>
-      <div class="float-card fc3" id="heroFc3"></div>
-      <div class="float-card fc4" id="heroFc4"></div>
-    </div>
-  </div>
-</section>
-
-<section class="how" id="como-comprar">
-  <div class="wrap">
-    <div class="eyebrow">Cómo comprar</div>
-    <h2 style="font-size:32px; margin-top:12px;">Simple, directo, por WhatsApp</h2>
-    <div class="how-grid">
-      <div class="how-step">
-        <div class="idx">Paso uno</div>
-        <h3>Elige lo que te gusta</h3>
-        <p>Filtra por categoría, busca por nombre o por la casa que te inspira, y ajusta la cantidad de cada producto en el catálogo.</p>
-      </div>
-      <div class="how-step">
-        <div class="idx">Paso dos</div>
-        <h3>Revisa tu pedido</h3>
-        <p>Abre tu carrito para ver el detalle completo de productos, cantidades y el total antes de enviarlo.</p>
-      </div>
-      <div class="how-step">
-        <div class="idx">Paso tres</div>
-        <h3>Envía tu pedido</h3>
-        <p>Con un clic armamos el mensaje con tu selección completa y lo abrimos directo en WhatsApp para coordinar pago y entrega.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="catalog" id="catalogo">
   <div class="wrap">
-    <div class="catalog-head">
-      <div>
-        <h2>Catálogo completo</h2>
-        <div class="result-count" id="resultCount">115 productos disponibles</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="controls">
-    <div class="wrap">
+    <div class="controls">
       <div class="controls-row">
-        <div class="search-box">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" id="searchInput" placeholder="Buscar por nombre o casa inspiradora (ej. Versace, Good Girl...)">
+        <div class="chip-group" id="genderChips">
+          <button class="chip active" data-gender="todos">Todos</button>
+          <button class="chip" data-gender="mujer">Mujer</button>
+          <button class="chip" data-gender="hombre">Hombre</button>
+          <button class="chip" data-gender="unisex">Unisex</button>
         </div>
         <select id="sortSelect">
           <option value="num">Orden del catálogo</option>
@@ -495,24 +359,8 @@
           <option value="name-asc">Nombre A–Z</option>
         </select>
       </div>
-      <div class="controls-row secondary">
-        <div class="tab-group" id="categoryTabs">
-          <button class="tab active" data-category="todos">Todo</button>
-          <button class="tab" data-category="perfumes">Perfumes</button>
-          <button class="tab" data-category="accesorios">Accesorios</button>
-          <button class="tab" data-category="bisuteria">Bisutería</button>
-        </div>
-        <div class="chip-group" id="genderChips">
-          <button class="chip active" data-gender="todos">Todos</button>
-          <button class="chip" data-gender="mujer">Mujer</button>
-          <button class="chip" data-gender="hombre">Hombre</button>
-          <button class="chip" data-gender="unisex">Unisex</button>
-        </div>
-      </div>
+      <div class="result-count" id="resultCount">115 productos disponibles</div>
     </div>
-  </div>
-
-  <div class="wrap">
     <div class="grid" id="productGrid"></div>
   </div>
 </section>
@@ -527,7 +375,6 @@
       <h4>Catálogo</h4>
       <ul>
         <li><a href="#catalogo">Ver todo el catálogo</a></li>
-        <li><a href="#como-comprar">Cómo comprar</a></li>
         <li><a href="#" onclick="openCart(); return false;">Mi pedido</a></li>
       </ul>
     </div>
@@ -628,23 +475,6 @@ const CATEGORY_META = {
     message: 'La colección de bisutería está en camino. Escríbenos por WhatsApp para ser de los primeros en enterarte cuando esté lista.'
   }
 };
-
-/* ---------- HERO FLOATING CARDS (built from real product data) ---------- */
-function renderHeroCards(){
-  const perfumes = PRODUCTS.filter(p => p.category === 'perfumes');
-  const picks = [perfumes[0], perfumes[Math.floor(perfumes.length*0.35)], perfumes[Math.floor(perfumes.length*0.6)], perfumes[perfumes.length-1]];
-  const ids = ['heroFc1','heroFc2','heroFc3','heroFc4'];
-  ids.forEach((id, i) => {
-    const p = picks[i];
-    if(!p) return;
-    document.getElementById(id).innerHTML = `
-      <img src="${p.img}" alt="${p.name}">
-      <div class="cap">${titleCase(p.name)}</div>`;
-  });
-  document.getElementById('statCount').textContent = PRODUCTS.length;
-  const minPrice = Math.min(...PRODUCTS.map(p => p.price));
-  document.getElementById('statFrom').textContent = `$${minPrice % 1 === 0 ? minPrice : minPrice.toFixed(2)}`;
-}
 
 /* ---------- GRID RENDER ---------- */
 function renderGrid(){
@@ -891,15 +721,14 @@ document.getElementById('genderChips').addEventListener('click', e => {
   renderGrid();
 });
 document.getElementById('categoryTabs').addEventListener('click', e => {
-  const tab = e.target.closest('.tab');
+  const tab = e.target.closest('.cat-tab');
   if(!tab) return;
   activeCategory = tab.dataset.category;
-  document.querySelectorAll('#categoryTabs .tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('#categoryTabs .cat-tab').forEach(t => t.classList.remove('active'));
   tab.classList.add('active');
   renderGrid();
 });
 
-renderHeroCards();
 renderGrid();
 updateOrderBar();
 </script>
