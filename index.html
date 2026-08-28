@@ -255,9 +255,9 @@
   .modal{
     background:var(--bg); border:1px solid var(--border); border-bottom:none;
     width:100%; max-width:560px; max-height:86vh; overflow-y:auto;
-    padding:20px 20px 24px; border-radius:6px 6px 0 0;
+    padding:22px; border-radius:6px 6px 0 0;
   }
-  .modal.small{max-width:380px;}
+  .modal.small{max-width:420px;}
   @media(min-width:640px){
     .modal-backdrop{align-items:center;}
     .modal{border:1px solid var(--border); border-radius:6px; margin-bottom:0;}
@@ -278,24 +278,24 @@
   .modal-actions{display:flex; gap:10px; margin-top:20px;}
   .modal-actions .btn{flex:1; justify-content:center;}
 
-  /* quick view specific: compact side-by-side card, not a full tall sheet */
-  .qv-body{display:flex; gap:14px; align-items:flex-start;}
+  /* quick view specific: well-proportioned card — capped-height image on top, info below */
+  .qv-body{display:flex; flex-direction:column; gap:16px;}
   .qv-img{
-    width:104px; height:130px; flex-shrink:0;
-    background:var(--surface-2); border:1px solid var(--border-soft);
-    display:flex; align-items:center; justify-content:center; padding:8px;
+    width:100%; height:230px; flex-shrink:0;
+    background:var(--surface-2); border:1px solid var(--border-soft); border-radius:4px;
+    display:flex; align-items:center; justify-content:center; padding:18px;
   }
-  .qv-img img{max-height:100%; object-fit:contain;}
-  .qv-info{min-width:0; flex:1;}
-  .qv-tags{display:flex; gap:6px; margin-bottom:6px; flex-wrap:wrap;}
-  .qv-tags .tag{position:static; font-size:9px; padding:3px 6px;}
-  .qv-name{font-size:16px; line-height:1.25;}
-  .qv-line{color:var(--ink-muted); font-size:12px; margin-top:4px; line-height:1.4;}
-  .qv-meta{display:flex; gap:12px; margin-top:8px; font-size:11px; color:var(--ink-faint);}
-  .qv-price{font-family:'Manrope',sans-serif; font-weight:800; font-size:19px; color:var(--primary); margin-top:10px;}
-  .qv-actions{display:flex; align-items:center; gap:10px; margin-top:12px; flex-wrap:wrap;}
-  .qv-actions .stepper{transform:scale(1); transform-origin:left center;}
-  .qv-actions .btn{padding:9px 16px; font-size:11px;}
+  .qv-img img{max-height:100%; max-width:100%; object-fit:contain;}
+  .qv-info{min-width:0;}
+  .qv-tags{display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap;}
+  .qv-tags .tag{position:static; font-size:10px; padding:4px 8px;}
+  .qv-name{font-size:19px; line-height:1.25;}
+  .qv-line{color:var(--ink-muted); font-size:13px; margin-top:5px; line-height:1.45;}
+  .qv-meta{display:flex; gap:14px; margin-top:10px; font-size:12px; color:var(--ink-faint);}
+  .qv-price{font-family:'Manrope',sans-serif; font-weight:800; font-size:24px; color:var(--primary); margin-top:12px;}
+  .qv-actions{display:flex; align-items:center; gap:12px; margin-top:16px; flex-wrap:wrap;}
+  .qv-actions .stepper{transform:scale(1.05); transform-origin:left center;}
+  .qv-actions .btn{padding:10px 20px; font-size:12px;}
 
   /* ---------- FOOTER ---------- */
   footer{border-top:1px solid var(--border-soft); padding:56px 0 34px; background:var(--bg-alt);}
