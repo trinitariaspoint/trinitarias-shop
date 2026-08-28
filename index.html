@@ -75,27 +75,25 @@
     border-bottom:1px solid var(--border-soft);
   }
   .topbar{
-    display:flex; align-items:center;
-    max-height:44px; overflow:hidden;
-    transition:max-height .22s ease, opacity .18s ease;
+    display:flex; align-items:center; gap:12px;
+    padding:10px 0;
   }
-  header.scrolled .topbar{max-height:0; opacity:0;}
-  .brand{display:flex; flex-direction:column; line-height:1; gap:4px; padding:10px 0 6px;}
+  .brand{display:flex; align-items:center; flex-shrink:0;}
   .brand .mark{
     font-family:'Manrope',sans-serif;
     font-weight:800;
-    font-size:17px;
+    font-size:16px;
     letter-spacing:-0.01em;
+    white-space:nowrap;
   }
   .brand .mark span{color:var(--burgundy);}
   .brand-logo{display:block;}
-  .brand-logo-header{height:26px; width:auto;}
+  .brand-logo-header{height:30px; width:auto;}
   .brand-logo-footer{height:22px; width:auto;}
   .brand .sub{
     font-size:9.5px; letter-spacing:0.24em; text-transform:uppercase;
     color:var(--ink-faint);
   }
-  .searchbar-wrap{padding:8px 0 10px; display:flex; align-items:center; gap:10px;}
   .search-box.big{position:relative; flex:1; min-width:0;}
   .search-box.big input{
     width:100%; background:var(--surface); border:1px solid var(--border);
@@ -341,8 +339,6 @@
       <img class="brand-logo brand-logo-header" id="brandLogoHeader" alt="Trinitarias Shop" style="display:none;">
       <div class="mark" id="brandTextHeader">Trinitarias <span>Shop</span></div>
     </div>
-  </div>
-  <div class="wrap searchbar-wrap">
     <div class="search-box big">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" id="searchInput" placeholder="Buscar perfumes, accesorios, bisutería...">
@@ -744,12 +740,6 @@ function updateQuickViewQty(num){
 document.getElementById('quickViewModal').addEventListener('click', e => {
   if(e.target.id === 'quickViewModal') closeQuickView();
 });
-
-/* ---------- HEADER SCROLL COLLAPSE ---------- */
-const siteHeader = document.querySelector('header');
-window.addEventListener('scroll', () => {
-  siteHeader.classList.toggle('scrolled', window.scrollY > 24);
-}, { passive: true });
 
 /* ---------- FILTER EVENTS ---------- */
 document.getElementById('searchInput').addEventListener('input', renderGrid);
