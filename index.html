@@ -535,7 +535,7 @@
       <h4>Contacto</h4>
       <ul>
         <li><a href="#" id="footerWhatsapp">WhatsApp: +58 000 0000000</a></li>
-        <li><a href="#" id="footerInstagram">@trinitariasshop</a></li>
+        <li id="footerInstagramItem"><a href="#" id="footerInstagram">@trinitariasshop</a></li>
       </ul>
     </div>
   </div>
@@ -592,16 +592,22 @@
    Denys: reemplaza estos dos valores con los datos reales del cliente
    antes de publicar el sitio. El número debe ir en formato
    internacional sin "+" ni espacios (ej. Venezuela: 58412XXXXXXX). */
-const WHATSAPP_NUMBER = "584120000000";
-const INSTAGRAM_HANDLE = "trinitariasshop";
+const WHATSAPP_NUMBER = "584248933374";
+const INSTAGRAM_HANDLE = "";
 /* ======================================== */
 
 let cart = {}; // { num: qty }
 let activeCategory = 'todos';
 
-document.getElementById('footerInstagram').href = `https://instagram.com/${INSTAGRAM_HANDLE}`;
-document.getElementById('footerInstagram').textContent = `@${INSTAGRAM_HANDLE}`;
+if(INSTAGRAM_HANDLE){
+  document.getElementById('footerInstagram').href = `https://instagram.com/${INSTAGRAM_HANDLE}`;
+  document.getElementById('footerInstagram').textContent = `@${INSTAGRAM_HANDLE}`;
+} else {
+  document.getElementById('footerInstagramItem').style.display = 'none';
+}
 document.getElementById('footerWhatsapp').href = `https://wa.me/${WHATSAPP_NUMBER}`;
+const waDisplay = WHATSAPP_NUMBER.replace(/^58(\d{3})(\d{3})(\d{4})$/, '+58 $1 $2 $3');
+document.getElementById('footerWhatsapp').textContent = `WhatsApp: ${waDisplay}`;
 
 function money(n){ return n.toFixed(2); }
 
