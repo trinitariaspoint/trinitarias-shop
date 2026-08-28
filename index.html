@@ -88,6 +88,9 @@
     letter-spacing:-0.01em;
   }
   .brand .mark span{color:var(--burgundy);}
+  .brand-logo{display:block;}
+  .brand-logo-header{height:26px; width:auto;}
+  .brand-logo-footer{height:22px; width:auto;}
   .brand .sub{
     font-size:9.5px; letter-spacing:0.24em; text-transform:uppercase;
     color:var(--ink-faint);
@@ -335,7 +338,8 @@
 <header>
   <div class="wrap topbar">
     <div class="brand">
-      <div class="mark">Trinitarias <span>Shop</span></div>
+      <img class="brand-logo brand-logo-header" id="brandLogoHeader" alt="Trinitarias Shop" style="display:none;">
+      <div class="mark" id="brandTextHeader">Trinitarias <span>Shop</span></div>
     </div>
   </div>
   <div class="wrap searchbar-wrap">
@@ -384,7 +388,10 @@
 <footer id="contacto">
   <div class="wrap footer-grid">
     <div>
-      <div class="brand"><div class="mark">Trinitarias <span>Shop</span></div></div>
+      <div class="brand">
+        <img class="brand-logo brand-logo-footer" id="brandLogoFooter" alt="Trinitarias Shop" style="display:none;">
+        <div class="mark" id="brandTextFooter">Trinitarias <span>Shop</span></div>
+      </div>
       <p>Perfumes inspirados en las casas de perfumería más reconocidas del mundo, además de accesorios y bisutería. Todas las fragancias son versiones inspiradas — no productos originales de las marcas mencionadas. Formato único de 100 ml.</p>
     </div>
     <div>
@@ -452,11 +459,14 @@
 <script src="products.js"></script>
 <script>
 /* ====== CONFIGURACIÓN DEL CLIENTE ======
-   Denys: reemplaza estos dos valores con los datos reales del cliente
+   Denys: reemplaza estos valores con los datos reales del cliente
    antes de publicar el sitio. El número debe ir en formato
-   internacional sin "+" ni espacios (ej. Venezuela: 58412XXXXXXX). */
+   internacional sin "+" ni espacios (ej. Venezuela: 58412XXXXXXX).
+   LOGO_URL: pega aquí la URL de Cloudinary del logo (trinitarias-shop-logo.webp)
+   una vez lo subas. Mientras esté vacío, el sitio muestra el nombre en texto. */
 const WHATSAPP_NUMBER = "584248933374";
 const INSTAGRAM_HANDLE = "";
+const LOGO_URL = "";
 /* ======================================== */
 
 let cart = {}; // { num: qty }
@@ -471,6 +481,15 @@ if(INSTAGRAM_HANDLE){
 document.getElementById('footerWhatsapp').href = `https://wa.me/${WHATSAPP_NUMBER}`;
 const waDisplay = WHATSAPP_NUMBER.replace(/^58(\d{3})(\d{3})(\d{4})$/, '+58 $1 $2 $3');
 document.getElementById('footerWhatsapp').textContent = `WhatsApp: ${waDisplay}`;
+
+if(LOGO_URL){
+  [['brandLogoHeader','brandTextHeader'], ['brandLogoFooter','brandTextFooter']].forEach(([imgId, textId]) => {
+    const img = document.getElementById(imgId);
+    img.src = LOGO_URL;
+    img.style.display = 'block';
+    document.getElementById(textId).style.display = 'none';
+  });
+}
 
 function money(n){ return n.toFixed(2); }
 
