@@ -78,6 +78,7 @@
   .topbar{
     display:flex; align-items:center; gap:12px;
     padding:16px 0 10px;
+    padding-top:calc(16px + env(safe-area-inset-top, 0px));
   }
   .brand{display:flex; align-items:center; flex-shrink:0;}
   .brand .mark{
@@ -318,6 +319,7 @@
   }
   @media(max-width:520px){
     .wrap{padding:0 18px;}
+    .topbar{padding-top:calc(24px + env(safe-area-inset-top, 0px));}
     .grid{grid-template-columns:repeat(2,1fr); gap:14px;}
     .card-body .pname{font-size:14px;}
     .price{font-size:16px;}
