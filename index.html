@@ -534,10 +534,14 @@
    antes de publicar el sitio. El número debe ir en formato
    internacional sin "+" ni espacios (ej. Venezuela: 58412XXXXXXX).
    LOGO_URL: pega aquí la URL de Cloudinary del logo (trinitarias-shop-logo.webp)
-   una vez lo subas. Mientras esté vacío, el sitio muestra el nombre en texto. */
+   una vez lo subas. Mientras esté vacío, el sitio muestra el nombre en texto.
+   FAVICON_URL: pega aquí la URL de Cloudinary del ícono cuadrado
+   (trinitarias-shop-favicon.png). El sitio genera automáticamente los
+   distintos tamaños (pestaña, iOS, Android) a partir de esa sola imagen. */
 const WHATSAPP_NUMBER = "584248933374";
 const INSTAGRAM_HANDLE = "";
 const LOGO_URL = "https://res.cloudinary.com/ff98tavj/image/upload/trinitarias-shop-logo.webp";
+const FAVICON_URL = "";
 /* ======================================== */
 
 let cart = {}; // { num: qty }
@@ -559,6 +563,25 @@ if(LOGO_URL){
     img.src = LOGO_URL;
     img.style.display = 'block';
     document.getElementById(textId).style.display = 'none';
+  });
+}
+
+if(FAVICON_URL){
+  // Genera cada tamaño al vuelo usando las transformaciones de Cloudinary,
+  // así solo hace falta subir una imagen cuadrada de buena resolución.
+  const cloudinarySize = (url, w) => url.replace('/image/upload/', `/image/upload/w_${w},h_${w},c_fit,f_png/`);
+  [
+    { rel: 'icon', sizes: '16x16', w: 16 },
+    { rel: 'icon', sizes: '32x32', w: 32 },
+    { rel: 'icon', sizes: '192x192', w: 192 },
+    { rel: 'apple-touch-icon', sizes: '180x180', w: 180 },
+  ].forEach(({ rel, sizes, w }) => {
+    const link = document.createElement('link');
+    link.rel = rel;
+    link.type = 'image/png';
+    link.sizes = sizes;
+    link.href = cloudinarySize(FAVICON_URL, w);
+    document.head.appendChild(link);
   });
 }
 
