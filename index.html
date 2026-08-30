@@ -147,6 +147,37 @@
     border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center;
   }
 
+  /* ---------- PROMO BANNER (wholesale discount, animated) ---------- */
+  .promo-banner{
+    position:relative; overflow:hidden;
+    background:linear-gradient(90deg, var(--primary), var(--accent), var(--pink), var(--accent), var(--primary));
+    background-size:300% 100%;
+    animation:promoShift 7s linear infinite;
+  }
+  .promo-banner-inner{
+    max-width:var(--maxw); margin:0 auto; padding:10px 28px;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    flex-wrap:wrap; text-align:center;
+  }
+  .promo-text{
+    color:#fff; font-family:'Manrope',sans-serif; font-weight:600; font-size:12.5px;
+    letter-spacing:0.01em;
+  }
+  .promo-text strong{font-weight:800;}
+  .promo-emoji{display:inline-block; font-size:15px; animation:promoBounce 1.6s ease-in-out infinite;}
+  .promo-emoji:last-child{animation-delay:.3s;}
+  @keyframes promoShift{
+    0%{background-position:0% 50%;}
+    100%{background-position:100% 50%;}
+  }
+  @keyframes promoBounce{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-3px);}
+  }
+  @media(max-width:520px){
+    .promo-text{font-size:11.5px;}
+  }
+
   /* ---------- CATALOG CONTROLS (gender + sort, sits just above the grid) ---------- */
   .catalog{padding:8px 0 40px;}
   .result-count{color:var(--ink-faint); font-size:13px;}
@@ -245,6 +276,8 @@
   .orderbar-info{display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
   .orderbar-count{font-size:13px; color:var(--ink-muted);}
   .orderbar-count b{color:var(--primary); font-family:'Manrope',sans-serif; font-weight:800; font-size:16px;}
+  .orderbar-hint{font-size:11.5px; font-weight:700; color:var(--ink-faint);}
+  .orderbar-hint.active{color:var(--pink);}
   .orderbar-total{font-family:'Manrope',sans-serif; font-weight:800; font-size:20px; color:var(--primary);}
   .orderbar-actions{display:flex; gap:10px;}
 
@@ -276,7 +309,17 @@
   .cart-item-remove:hover{color:var(--tag-mujer);}
   .cart-summary{margin-top:16px; padding-top:16px; border-top:1px solid var(--border);}
   .cart-summary-row{display:flex; justify-content:space-between; font-size:14px; margin-bottom:8px; color:var(--ink-muted);}
+  .cart-summary-row.discount{color:var(--pink); font-weight:700;}
   .cart-summary-row.total{font-size:18px; color:var(--ink); font-family:'Manrope',sans-serif; font-weight:800;}
+  .discount-hint{
+    font-size:12.5px; font-weight:600; color:var(--ink-muted);
+    background:var(--surface-2); border:1px solid var(--border-soft);
+    border-radius:6px; padding:10px 12px; margin-bottom:4px;
+  }
+  .discount-hint.active{
+    color:var(--primary); font-weight:800;
+    background:rgba(255,102,196,0.1); border-color:var(--pink);
+  }
   .modal-actions{display:flex; gap:10px; margin-top:20px;}
   .modal-actions .btn{flex:1; justify-content:center;}
 
@@ -332,6 +375,7 @@
   }
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important; scroll-behavior:auto !important;}
+    .promo-banner, .promo-emoji{animation:none !important;}
   }
 </style>
 </head>
@@ -361,6 +405,14 @@
     </div>
   </div>
 </header>
+
+<div class="promo-banner">
+  <div class="promo-banner-inner">
+    <span class="promo-emoji" aria-hidden="true">🎉</span>
+    <span class="promo-text">Compra <strong>7 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
+    <span class="promo-emoji" aria-hidden="true">🎉</span>
+  </div>
+</div>
 
 <section class="catalog" id="catalogo">
   <div class="wrap">
@@ -419,6 +471,7 @@
   <div class="orderbar-inner">
     <div class="orderbar-info">
       <div class="orderbar-count"><b id="barCount">0</b> producto(s) en tu pedido</div>
+      <div class="orderbar-hint" id="orderbarHint"></div>
       <div class="orderbar-total">$<span id="barTotal">0.00</span></div>
     </div>
     <div class="orderbar-actions">
@@ -435,8 +488,11 @@
       <button class="modal-close" onclick="closeCart()">&times;</button>
     </div>
     <div id="cartItems"></div>
+    <div class="discount-hint" id="cartDiscountHint" style="display:none;"></div>
     <div class="cart-summary">
       <div class="cart-summary-row"><span>Productos</span><span id="summaryCount">0</span></div>
+      <div class="cart-summary-row"><span>Subtotal</span><span>$<span id="summarySubtotal">0.00</span></span></div>
+      <div class="cart-summary-row discount" id="summaryDiscountRow" style="display:none;"><span>Descuento mayorista (-50%)</span><span id="summaryDiscount">-$0.00</span></div>
       <div class="cart-summary-row total"><span>Total</span><span>$<span id="summaryTotal">0.00</span></span></div>
     </div>
     <div class="modal-actions">
@@ -615,24 +671,46 @@ function refreshAfterCartChange(num){
   renderCartModal();
 }
 
+const WHOLESALE_MIN_QTY = 7;
+const WHOLESALE_DISCOUNT_RATE = 0.5;
+
 function cartTotals(){
-  let count = 0, total = 0;
+  let count = 0, perfumeSubtotal = 0, otherSubtotal = 0;
   Object.entries(cart).forEach(([num, qty]) => {
     const p = productByNum(Number(num));
     if(!p) return;
     count += qty;
-    total += qty * p.price;
+    const lineTotal = qty * p.price;
+    if(p.category === 'perfumes') perfumeSubtotal += lineTotal;
+    else otherSubtotal += lineTotal;
   });
-  return { count, total };
+  const subtotal = perfumeSubtotal + otherSubtotal;
+  const discountEligible = count >= WHOLESALE_MIN_QTY;
+  const discount = discountEligible ? perfumeSubtotal * WHOLESALE_DISCOUNT_RATE : 0;
+  const total = subtotal - discount;
+  const remainingForDiscount = Math.max(0, WHOLESALE_MIN_QTY - count);
+  return { count, subtotal, perfumeSubtotal, otherSubtotal, discount, discountEligible, remainingForDiscount, total };
 }
 
 function updateOrderBar(){
-  const { count, total } = cartTotals();
+  const { count, total, discountEligible, remainingForDiscount } = cartTotals();
   const bar = document.getElementById('orderBar');
   document.getElementById('headerCartCount').textContent = count;
   document.getElementById('barCount').textContent = count;
   document.getElementById('barTotal').textContent = money(total);
   bar.classList.toggle('visible', count > 0);
+
+  const hintEl = document.getElementById('orderbarHint');
+  if(count === 0){
+    hintEl.textContent = '';
+    hintEl.classList.remove('active');
+  } else if(discountEligible){
+    hintEl.textContent = '🎉 50% OFF mayorista aplicado';
+    hintEl.classList.add('active');
+  } else {
+    hintEl.textContent = `Agrega ${remainingForDiscount} más y llévate 50% OFF`;
+    hintEl.classList.remove('active');
+  }
 
   const waLink = buildWhatsAppLink();
   document.getElementById('waButton').href = waLink;
@@ -640,7 +718,7 @@ function updateOrderBar(){
 }
 
 function buildWhatsAppLink(){
-  const { count, total } = cartTotals();
+  const { count, subtotal, discount, total, discountEligible } = cartTotals();
   if(count === 0) return '#';
   let lines = [`Hola, quiero hacer un pedido en Trinitarias Shop:`, ``];
   Object.entries(cart).forEach(([num, qty]) => {
@@ -648,7 +726,12 @@ function buildWhatsAppLink(){
     if(!p) return;
     lines.push(`• ${titleCase(p.name)} (${p.ml}) x${qty} — $${money(p.price * qty)}`);
   });
-  lines.push(``, `Total: ${count} producto${count===1?'':'s'} — $${money(total)}`);
+  lines.push(``);
+  if(discountEligible){
+    lines.push(`Subtotal: $${money(subtotal)}`);
+    lines.push(`Descuento mayorista (-50% en perfumes): -$${money(discount)}`);
+  }
+  lines.push(`Total: ${count} producto${count===1?'':'s'} — $${money(total)}`);
   const text = encodeURIComponent(lines.join('\n'));
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
 }
@@ -674,8 +757,30 @@ function renderCartModal(){
     }).join('');
   }
 
-  const { count, total } = cartTotals();
+  const { count, subtotal, discount, total, discountEligible, remainingForDiscount } = cartTotals();
+
+  const hintEl = document.getElementById('cartDiscountHint');
+  if(count === 0){
+    hintEl.style.display = 'none';
+  } else if(discountEligible){
+    hintEl.style.display = 'block';
+    hintEl.classList.add('active');
+    hintEl.textContent = '🎉 ¡Llegaste a 7+ productos! Tienes 50% OFF en tus perfumes.';
+  } else {
+    hintEl.style.display = 'block';
+    hintEl.classList.remove('active');
+    hintEl.textContent = `Agrega ${remainingForDiscount} producto${remainingForDiscount===1?'':'s'} más y obtén 50% OFF en todos tus perfumes.`;
+  }
+
   document.getElementById('summaryCount').textContent = count;
+  document.getElementById('summarySubtotal').textContent = money(subtotal);
+  const discountRow = document.getElementById('summaryDiscountRow');
+  if(discountEligible){
+    discountRow.style.display = 'flex';
+    document.getElementById('summaryDiscount').textContent = `-$${money(discount)}`;
+  } else {
+    discountRow.style.display = 'none';
+  }
   document.getElementById('summaryTotal').textContent = money(total);
 }
 
