@@ -156,20 +156,21 @@
   }
   .promo-track{
     display:flex; width:max-content;
-    animation:promoMarquee 18s linear infinite;
+    animation:promoMarquee 40s linear infinite;
   }
   .promo-set{
     display:flex; align-items:center; flex-shrink:0;
   }
   .promo-item{
-    display:flex; align-items:center;
+    display:inline-block; vertical-align:middle;
     color:#fff; font-family:'Manrope',sans-serif; font-weight:600; font-size:12px;
-    letter-spacing:0.01em; white-space:nowrap;
-    padding:8px 28px; position:relative;
+    white-space:nowrap; padding:9px 8px;
   }
-  .promo-item::after{
-    content:''; position:absolute; right:0; top:50%; transform:translateY(-50%);
-    width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,.6);
+  .promo-item .promo-emoji{display:inline-block; margin-right:5px; vertical-align:middle;}
+  .promo-item .dot{
+    display:inline-block; vertical-align:middle;
+    width:4px; height:4px; border-radius:50%;
+    background:rgba(255,255,255,.6); margin:0 0 0 20px;
   }
   .promo-item strong{font-weight:800;}
   @keyframes promoShift{
@@ -410,14 +411,14 @@
   <div class="promo-banner">
     <div class="promo-track">
       <div class="promo-set">
-        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
-        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
-        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
+        <span class="promo-item"><span class="promo-emoji">🎉</span> Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido <span class="dot"></span></span>
+        <span class="promo-item"><span class="promo-emoji">🎉</span> Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido <span class="dot"></span></span>
+        <span class="promo-item"><span class="promo-emoji">🎉</span> Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido <span class="dot"></span></span>
       </div>
       <div class="promo-set" aria-hidden="true">
-        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
-        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
-        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
+        <span class="promo-item"><span class="promo-emoji">🎉</span> Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido <span class="dot"></span></span>
+        <span class="promo-item"><span class="promo-emoji">🎉</span> Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido <span class="dot"></span></span>
+        <span class="promo-item"><span class="promo-emoji">🎉</span> Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido <span class="dot"></span></span>
       </div>
     </div>
   </div>
