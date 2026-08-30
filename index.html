@@ -147,35 +147,38 @@
     border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center;
   }
 
-  /* ---------- PROMO BANNER (wholesale discount, animated) ---------- */
+  /* ---------- PROMO BANNER (wholesale discount, scrolling marquee) ---------- */
   .promo-banner{
     position:relative; overflow:hidden;
     background:linear-gradient(90deg, var(--primary), var(--accent), var(--pink), var(--accent), var(--primary));
     background-size:300% 100%;
     animation:promoShift 7s linear infinite;
   }
-  .promo-banner-inner{
-    max-width:var(--maxw); margin:0 auto; padding:10px 28px;
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    flex-wrap:wrap; text-align:center;
+  .promo-track{
+    display:flex; width:max-content;
+    animation:promoMarquee 18s linear infinite;
   }
-  .promo-text{
-    color:#fff; font-family:'Manrope',sans-serif; font-weight:600; font-size:12.5px;
-    letter-spacing:0.01em;
+  .promo-set{
+    display:flex; align-items:center; flex-shrink:0;
   }
-  .promo-text strong{font-weight:800;}
-  .promo-emoji{display:inline-block; font-size:15px; animation:promoBounce 1.6s ease-in-out infinite;}
-  .promo-emoji:last-child{animation-delay:.3s;}
+  .promo-item{
+    display:flex; align-items:center;
+    color:#fff; font-family:'Manrope',sans-serif; font-weight:600; font-size:12px;
+    letter-spacing:0.01em; white-space:nowrap;
+    padding:8px 28px; position:relative;
+  }
+  .promo-item::after{
+    content:''; position:absolute; right:0; top:50%; transform:translateY(-50%);
+    width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,.6);
+  }
+  .promo-item strong{font-weight:800;}
   @keyframes promoShift{
     0%{background-position:0% 50%;}
     100%{background-position:100% 50%;}
   }
-  @keyframes promoBounce{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-3px);}
-  }
-  @media(max-width:520px){
-    .promo-text{font-size:11.5px;}
+  @keyframes promoMarquee{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
   }
 
   /* ---------- CATALOG CONTROLS (gender + sort, sits just above the grid) ---------- */
@@ -375,7 +378,7 @@
   }
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important; scroll-behavior:auto !important;}
-    .promo-banner, .promo-emoji{animation:none !important;}
+    .promo-banner, .promo-track{animation:none !important;}
   }
 </style>
 </head>
@@ -404,15 +407,21 @@
       <button class="cat-tab" data-category="bisuteria"><span class="emoji">💍</span>Bisutería</button>
     </div>
   </div>
-</header>
-
-<div class="promo-banner">
-  <div class="promo-banner-inner">
-    <span class="promo-emoji" aria-hidden="true">🎉</span>
-    <span class="promo-text">Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
-    <span class="promo-emoji" aria-hidden="true">🎉</span>
+  <div class="promo-banner">
+    <div class="promo-track">
+      <div class="promo-set">
+        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
+        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
+        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
+      </div>
+      <div class="promo-set" aria-hidden="true">
+        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
+        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
+        <span class="promo-item">🎉 Compra <strong>6 o más perfumes</strong> y obtén <strong>50% OFF</strong> en todo tu pedido</span>
+      </div>
+    </div>
   </div>
-</div>
+</header>
 
 <section class="catalog" id="catalogo">
   <div class="wrap">
