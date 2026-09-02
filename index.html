@@ -246,6 +246,13 @@
     position:absolute; top:10px; right:10px; left:auto;
     background:var(--pink); color:#fff; border:none;
   }
+  .bestseller-badge{
+    display:inline-flex; align-items:center; gap:3px; width:fit-content;
+    font-size:9.5px; font-weight:800; letter-spacing:0.03em; text-transform:uppercase;
+    padding:4px 8px; border-radius:10px;
+    background:linear-gradient(90deg, var(--primary), var(--accent));
+    color:#fff;
+  }
   .card-body{padding:16px 16px 18px; display:flex; flex-direction:column; gap:6px; flex:1;}
   .card-body .pname{font-family:'Manrope',sans-serif; font-size:15.5px; font-weight:700; line-height:1.25; cursor:pointer;}
   .card-body .pname:hover{color:var(--primary);}
@@ -436,6 +443,7 @@
     <div class="wrap">
       <div class="category-tabs" id="categoryTabs">
         <button class="cat-tab active" data-category="todos"><span class="emoji">🛍️</span>Todo</button>
+        <button class="cat-tab" data-category="bestsellers"><span class="emoji">🔥</span>Más Vendidos</button>
         <button class="cat-tab" data-category="perfumes"><span class="emoji">🌸</span>Perfumes</button>
         <button class="cat-tab" data-category="accesorios"><span class="emoji">👜</span>Accesorios</button>
         <button class="cat-tab" data-category="bisuteria"><span class="emoji">💍</span>Bisutería</button>
@@ -626,7 +634,7 @@ function renderGrid(){
   const list = getFilteredSorted();
   const countEl = document.getElementById('resultCount');
 
-  if(activeCategory !== 'todos' && activeCategory !== 'perfumes' && list.length === 0){
+  if(activeCategory !== 'todos' && activeCategory !== 'perfumes' && activeCategory !== 'bestsellers' && list.length === 0){
     const meta = CATEGORY_META[activeCategory];
     countEl.textContent = `${meta.label} — próximamente`;
     grid.innerHTML = `
@@ -657,6 +665,7 @@ function renderGrid(){
         <img src="${p.img}" alt="${p.name}" loading="lazy">
       </div>
       <div class="card-body">
+        ${p.bestseller ? '<span class="bestseller-badge">🔥 Más vendido</span>' : ''}
         <div class="pname" onclick="openQuickView(${p.num})">${titleCase(p.name)}</div>
         <div class="pline">${titleCase(p.inspired)}</div>
         <div class="card-foot">
@@ -682,7 +691,9 @@ function getFilteredSorted(){
   const sort = document.getElementById('sortSelect').value;
 
   let list = PRODUCTS.filter(p => {
-    const matchesCategory = activeCategory === 'todos' || p.category === activeCategory;
+    const matchesCategory = activeCategory === 'todos' ? true
+      : activeCategory === 'bestsellers' ? !!p.bestseller
+      : p.category === activeCategory;
     const matchesGender = gender === 'todos' || p.gender === gender;
     const haystack = (p.name + ' ' + p.line + ' ' + p.inspired).toLowerCase();
     const matchesSearch = !q || haystack.includes(q);
@@ -873,6 +884,7 @@ function openQuickView(num){
       <div class="qv-tags">
         <span class="tag ${p.gender}">${genderLabel}</span>
         ${p.collection === 'premium' ? '<span class="tag premium">EB Collection</span>' : ''}
+        ${p.bestseller ? '<span class="bestseller-badge">🔥 Más vendido</span>' : ''}
       </div>
       <h3 class="qv-name">${titleCase(p.name)}</h3>
       <div class="qv-line">${titleCase(p.inspired)}</div>
